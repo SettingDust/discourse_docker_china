@@ -644,6 +644,7 @@ run_bootstrap() {
   rm -f $cidbootstrap
 
   run_command="cd /pups &&"
+  run_command="$run_command git remote set-url origin https://hub.fastgit.org/discourse/pups &&"
   if [[ ! "false" =  $update_pups ]]; then
     run_command="$run_command git pull && git checkout $pups_version &&"
   fi

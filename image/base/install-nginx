@@ -19,7 +19,7 @@ apt install -y nginx-common libpcre3 libpcre3-dev zlib1g zlib1g-dev
 
 cd /tmp
 # this is the reason we are compiling by hand...
-git clone https://github.com/google/ngx_brotli.git
+git clone https://hub.fastgit.org/google/ngx_brotli.git
 # now ngx_brotli has brotli as a submodule
 cd /tmp/ngx_brotli
 git submodule update --init
