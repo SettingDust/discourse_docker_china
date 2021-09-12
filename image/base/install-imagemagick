@@ -42,7 +42,7 @@ rm -rf build_aom
 
 # Build and install libheif
 cd $WDIR
-wget -O $WDIR/libheif.tar.gz "https://github.com/strukturag/libheif/archive/v$LIBHEIF_VERSION.tar.gz"
+wget -O $WDIR/libheif.tar.gz "https://hub.fastgit.org/strukturag/libheif/archive/v$LIBHEIF_VERSION.tar.gz"
 sha256sum $WDIR/libheif.tar.gz
 echo "$LIBHEIF_HASH $WDIR/libheif.tar.gz" | sha256sum -c
 tar -xzvf $WDIR/libheif.tar.gz
@@ -52,7 +52,7 @@ cd libheif-$LIBHEIF_VERSION
 make && make install
 
 # Build and install ImageMagick
-wget -O $WDIR/ImageMagick.tar.gz "https://github.com/ImageMagick/ImageMagick/archive/$IMAGE_MAGICK_VERSION.tar.gz"
+wget -O $WDIR/ImageMagick.tar.gz "https://hub.fastgit.org/ImageMagick/ImageMagick/archive/$IMAGE_MAGICK_VERSION.tar.gz"
 sha256sum $WDIR/ImageMagick.tar.gz
 echo "$IMAGE_MAGICK_HASH $WDIR/ImageMagick.tar.gz" | sha256sum -c
 IMDIR=$WDIR/$(tar tzf $WDIR/ImageMagick.tar.gz --wildcards "ImageMagick-*/configure" |cut -d/ -f1)

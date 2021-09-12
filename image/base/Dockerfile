@@ -64,17 +64,17 @@ RUN /tmp/install-nginx
 RUN apt -y install advancecomp jhead jpegoptim libjpeg-turbo-progs optipng
 
 RUN mkdir /jemalloc-stable && cd /jemalloc-stable &&\
-      wget https://github.com/jemalloc/jemalloc/releases/download/3.6.0/jemalloc-3.6.0.tar.bz2 &&\
+      wget https://hub.fastgit.org/jemalloc/jemalloc/releases/download/3.6.0/jemalloc-3.6.0.tar.bz2 &&\
       tar -xjf jemalloc-3.6.0.tar.bz2 && cd jemalloc-3.6.0 && ./configure --prefix=/usr && make && make install &&\
       cd / && rm -rf /jemalloc-stable
 
 RUN mkdir /jemalloc-new && cd /jemalloc-new &&\
-      wget https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2 &&\
+      wget https://hub.fastgit.org/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2 &&\
       tar -xjf jemalloc-5.2.1.tar.bz2 && cd jemalloc-5.2.1 && ./configure --prefix=/usr --with-install-suffix=5.2.1 && make build_lib && make install_lib &&\
       cd / && rm -rf /jemalloc-new
 
 RUN echo 'gem: --no-document' >> /usr/local/etc/gemrc &&\
-    mkdir /src && cd /src && git clone https://github.com/sstephenson/ruby-build.git &&\
+    mkdir /src && cd /src && git clone https://hub.fastgit.org/sstephenson/ruby-build.git &&\
     cd /src/ruby-build && ./install.sh &&\
     cd / && rm -rf /src/ruby-build && (ruby-build 2.7.4 /usr/local)
 
@@ -82,7 +82,7 @@ RUN gem update --system
 
 RUN gem install bundler --force &&\
     rm -rf /usr/local/share/ri/2.7.4/system &&\
-    cd / && git clone https://github.com/discourse/pups.git
+    cd / && git clone https://hub.fastgit.org/discourse/pups.git
 
 ADD install-redis /tmp/install-redis
 RUN /tmp/install-redis
@@ -134,8 +134,9 @@ ADD cron.d_anacron /etc/cron.d/anacron
 RUN useradd discourse -s /bin/bash -m -U &&\
     mkdir -p /var/www &&\
     cd /var/www &&\
-    git clone --depth 1 https://github.com/discourse/discourse.git &&\
+    git clone --depth 1 https://hub.fastgit.org/discourse/discourse.git &&\
     cd discourse &&\
+    git remote set-url origin https://hub.fastgit.org/discourse/discourse &&\
     git remote set-branches --add origin tests-passed &&\
     chown -R discourse:discourse /var/www/discourse &&\
     cd /var/www/discourse &&\
