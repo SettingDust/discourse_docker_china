@@ -14,5 +14,9 @@ hooks:
     - exec:
        cmd:
          - su discourse -c 'bundle config mirror.https://rubygems.org https://gems.ruby-china.com/'
+  after_bundle_exec:
+    - exec:
+       cd: $home
+       cmd:
          - wget https://raw.fastgit.org/SettingDust/discourse_docker_china/main/discourse.patch
          - git apply discourse.patch
