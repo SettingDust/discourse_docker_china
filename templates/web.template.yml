@@ -85,7 +85,6 @@ run:
       cd: $home
       hook: code
       cmd:
-        - git remote set-url origin https://hub.fastgit.org/discourse/discourse
         - git reset --hard
         - git clean -f
         - git remote set-branches --add origin main
