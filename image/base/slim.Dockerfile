@@ -65,7 +65,7 @@ RUN /tmp/install-nginx
 RUN apt -y install advancecomp jhead jpegoptim libjpeg-turbo-progs optipng
 
 RUN mkdir /oxipng-install && cd /oxipng-install &&\
-      wget https://github.com/shssoichiro/oxipng/releases/download/v5.0.0/oxipng-5.0.0-x86_64-unknown-linux-musl.tar.gz &&\
+      wget https://hub.fastgit.org/shssoichiro/oxipng/releases/download/v5.0.0/oxipng-5.0.0-x86_64-unknown-linux-musl.tar.gz &&\
       tar -xzf oxipng-5.0.0-x86_64-unknown-linux-musl.tar.gz && cd oxipng-5.0.0-x86_64-unknown-linux-musl &&\
       cp oxipng /usr/local/bin &&\
       cd / && rm -rf /oxipng-install
