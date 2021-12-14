@@ -1,6 +1,6 @@
 # NAME:     discourse/base
 # VERSION:  release
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV PG_MAJOR 13
 ENV RUBY_ALLOCATOR /usr/lib/libjemalloc.so.1
@@ -10,6 +10,7 @@ ENV RAILS_ENV production
 
 RUN echo 2.0.`date +%Y%m%d` > /VERSION
 
+RUN echo 'deb http://deb.debian.org/debian bullseye-backports main' > /etc/apt/sources.list.d/bullseye-backports.list
 RUN apt update && apt install -y gnupg sudo curl
 RUN echo "debconf debconf/frontend select Teletype" | debconf-set-selections
 RUN apt update && apt -y install fping
@@ -24,7 +25,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 RUN curl https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" | \
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" | \
         tee /etc/apt/sources.list.d/postgres.list
 RUN curl --silent --location https://deb.nodesource.com/setup_16.x | sudo bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -40,7 +41,7 @@ RUN apt -y install build-essential rsync \
                        postgresql-${PG_MAJOR} postgresql-client-${PG_MAJOR} \
                        postgresql-contrib-${PG_MAJOR} libpq-dev libreadline-dev \
                        anacron wget \
-                       psmisc vim whois brotli libunwind-dev \
+                       psmisc whois brotli libunwind-dev \
                        libtcmalloc-minimal4 cmake \
                        pngcrush pngquant
 RUN sed -i -e 's/start -q anacron/anacron -s/' /etc/cron.d/anacron
@@ -62,6 +63,12 @@ ADD install-nginx /tmp/install-nginx
 RUN /tmp/install-nginx
 
 RUN apt -y install advancecomp jhead jpegoptim libjpeg-turbo-progs optipng
+
+RUN mkdir /oxipng-install && cd /oxipng-install &&\
+      wget https://github.com/shssoichiro/oxipng/releases/download/v5.0.0/oxipng-5.0.0-x86_64-unknown-linux-musl.tar.gz &&\
+      tar -xzf oxipng-5.0.0-x86_64-unknown-linux-musl.tar.gz && cd oxipng-5.0.0-x86_64-unknown-linux-musl &&\
+      cp oxipng /usr/local/bin &&\
+      cd / && rm -rf /oxipng-install
 
 RUN mkdir /jemalloc-stable && cd /jemalloc-stable &&\
       wget https://hub.fastgit.org/jemalloc/jemalloc/releases/download/3.6.0/jemalloc-3.6.0.tar.bz2 &&\
@@ -138,10 +145,4 @@ RUN useradd discourse -s /bin/bash -m -U &&\
     cd discourse &&\
     git remote set-url origin https://hub.fastgit.org/discourse/discourse &&\
     git remote set-branches --add origin tests-passed &&\
-    chown -R discourse:discourse /var/www/discourse &&\
-    cd /var/www/discourse &&\
-    sudo -u discourse bundle install --deployment --jobs 4 --without test development &&\
-    sudo -u discourse yarn install --production &&\
-    sudo -u discourse yarn cache clean &&\
-    bundle exec rake maxminddb:get &&\
-    find /var/www/discourse/vendor/bundle -name tmp -type d -exec rm -rf {} +
+    chown -R discourse:discourse /var/www/discourse
