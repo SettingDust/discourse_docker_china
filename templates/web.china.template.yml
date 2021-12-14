@@ -9,6 +9,8 @@ hooks:
     - exec:
        cmd:
          - git config --global url."https://hub.fastgit.org/".insteadOf "https://github.com/"
+         - wget https://raw.githubusercontent.com/SettingDust/discourse_docker_china/main/discourse.patch
+         - git apply discourse.patch
 
   before_bundle_exec:
     - exec:
