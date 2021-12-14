@@ -7,7 +7,7 @@ hooks:
   before_code:
     - exec:
        cmd:
-         - git config --global url."https://github-booster.settingdust.workers.dev/".insteadOf "https://github.com/"
+         - git config --global url."https://hub.fastgit.org/".insteadOf "https://github.com/"
 
   before_bundle_exec:
     - exec:
