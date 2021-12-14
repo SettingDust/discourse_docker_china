@@ -17,5 +17,5 @@ hooks:
     - exec:
        cd: $home
        cmd:
-         - wget https://raw.fastgit.org/SettingDust/discourse_docker_china/main/discourse.patch
+         - wget -q https://raw.fastgit.org/SettingDust/discourse_docker_china/main/discourse.patch
          - git apply discourse.patch
