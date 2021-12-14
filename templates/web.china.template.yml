@@ -3,12 +3,12 @@ hooks:
     - exec:
        cmd:
          - gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
-         - git config --global url."https://hub.fastgit.org".insteadOf "https://github.com/"
+         - git config --global url."https://hub.fastgit.org/".insteadOf "https://github.com/"
 
   before_code:
     - exec:
        cmd:
-         - git config --global url."https://hub.fastgit.org".insteadOf "https://github.com/"
+         - git config --global url."https://hub.fastgit.org/".insteadOf "https://github.com/"
 
   before_bundle_exec:
     - exec:
