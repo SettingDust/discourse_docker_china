@@ -17,6 +17,6 @@ hooks:
     - exec:
        cd: $home
        cmd:
-         - wget -q https://raw.fastgit.org/SettingDust/discourse_docker_china/main/discourse.patch
+         - wget https://raw.fastgit.org/SettingDust/discourse_docker_china/main/discourse.patch
          - git apply discourse.patch
          - yarn config set registry https://r.cnpmjs.org/
