@@ -7,7 +7,7 @@ index a830aebef4..4413fa1ab9 100644
      "moment": "2.29.1",
      "moment-timezone": "0.5.31",
 -    "moment-timezone-names-translations": "https://github.com/discourse/moment-timezone-names-translations",
-+    "moment-timezone-names-translations": "https://hub.fastgit.org/discourse/moment-timezone-names-translations",
++    "moment-timezone-names-translations": "https://hub.fastgit.org/discourse/moment-timezone-names-translations.git",
      "pikaday": "1.8.0",
      "spectrum-colorpicker": "1.8.0",
      "workbox-cacheable-response": "^4.3.1",
