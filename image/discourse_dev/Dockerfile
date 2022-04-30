@@ -41,7 +41,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo ap
     apt install -y google-chrome-stable firefox-esr
 
 # Install & Configure MailHog (https://github.com/mailhog/MailHog)
-RUN wget -qO /tmp/mailhog https://hub.fastgit.org/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64\
+RUN wget -qO /tmp/mailhog https://hub.fastgit.xyz/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64\
     && echo "e2ed634ded49929f089b20045581955ed217672078fd86082dd7a6c67c5d09c7 /tmp/mailhog" | sha256sum -c -\
     && mv /tmp/mailhog /usr/local/bin/mailhog\
     && chmod +x /usr/local/bin/mailhog

@@ -7,7 +7,7 @@ hooks:
   before_code:
     - exec:
        cmd:
-         - git config --global url."https://hub.fastgit.org/".insteadOf "https://github.com/"
+         - git config --global url."https://hub.fastgit.xyz/".insteadOf "https://github.com/"
 
   before_bundle_exec:
     - exec:
@@ -17,6 +17,6 @@ hooks:
     - exec:
        cd: $home
        cmd:
-         - wget https://raw.fastgit.org/SettingDust/discourse_docker_china/main/discourse.patch
+         - wget https://raw.fastgit.xyz/SettingDust/discourse_docker_china/main/discourse.patch
          - git apply discourse.patch
          - yarn config set registry https://r.cnpmjs.org/

@@ -12,7 +12,7 @@ apt -y -q install advancecomp jhead jpegoptim libjpeg-turbo-progs optipng
 mkdir /oxipng-install
 cd /oxipng-install
 
-wget -q https://github.com/shssoichiro/oxipng/releases/download/v${OXIPNG_VERSION}/${OXIPNG_FILE}
+wget -q https://hub.fastgit.xyz/shssoichiro/oxipng/releases/download/v${OXIPNG_VERSION}/${OXIPNG_FILE}
 sha256sum ${OXIPNG_FILE}
 echo "${OXIPNG_HASH} ${OXIPNG_FILE}" | sha256sum -c
 
