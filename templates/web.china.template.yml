@@ -7,7 +7,7 @@ hooks:
   before_code:
     - exec:
        cmd:
-         - git config --global url."https://hub.fastgit.xyz/".insteadOf "https://github.com/"
+         - git config --global url."https://mirror.ghproxy.com/https://github.com/".insteadOf "https://github.com/"
 
   before_bundle_exec:
     - exec:

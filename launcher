@@ -682,7 +682,7 @@ run_bootstrap() {
   else
     # Fallback to git pull method here if `pups` was not installed by gem in base image
     pups_command="cd /pups &&"
-    pups_command="$pups_command git remote set-url origin https://hub.fastgit.xyz/discourse/pups &&"
+    pups_command="$pups_command git remote set-url origin https://mirror.ghproxy.com/https://github.com/discourse/pups &&"
     if [[ ! "false" =  $update_pups ]]; then
       pups_command="$pups_command git pull && git checkout $pups_version &&"
     fi

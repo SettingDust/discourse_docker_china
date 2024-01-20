@@ -98,7 +98,7 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone https://hub.fastgit.xyz/discourse/docker_manager.git
+          - git clone https://mirror.ghproxy.com/https://github.com/discourse/docker_manager.git
 
 ## Any custom commands to run after building
 run:

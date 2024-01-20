@@ -7,7 +7,7 @@ export CONFIGURE_OPTS="--enable-yjit"
 apt-get -y install --no-install-recommends ruby bison libffi-dev
 
 mkdir /src
-git -C /src clone https://hub.fastgit.xyz/rbenv/ruby-build.git
+git -C /src clone https://mirror.ghproxy.com/https://github.com/rbenv/ruby-build.git
 cd /src/ruby-build && ./install.sh
 cd / && rm -fr /src
 

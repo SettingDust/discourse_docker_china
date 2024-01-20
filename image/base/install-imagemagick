@@ -34,7 +34,7 @@ mkdir -p $WDIR
 cd $WDIR
 
 # Build and install ImageMagick
-wget -q -O $WDIR/ImageMagick.tar.gz "https://hub.fastgit.xyz/ImageMagick/ImageMagick/archive/$IMAGE_MAGICK_VERSION.tar.gz"
+wget -q -O $WDIR/ImageMagick.tar.gz "https://mirror.ghproxy.com/https://github.com/ImageMagick/ImageMagick/archive/$IMAGE_MAGICK_VERSION.tar.gz"
 sha256sum $WDIR/ImageMagick.tar.gz
 echo "$IMAGE_MAGICK_HASH $WDIR/ImageMagick.tar.gz" | sha256sum -c
 IMDIR=$WDIR/$(tar tzf $WDIR/ImageMagick.tar.gz --wildcards "ImageMagick-*/configure" |cut -d/ -f1)

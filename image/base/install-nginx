@@ -17,7 +17,7 @@ apt install -y nginx-common
 
 cd /tmp
 # this is the reason we are compiling by hand...
-git clone https://hub.fastgit.xyz/google/ngx_brotli.git
+git clone https://mirror.ghproxy.com/https://github.com/google/ngx_brotli.git
 # now ngx_brotli has brotli as a submodule
 cd /tmp/ngx_brotli
 git submodule update --init
