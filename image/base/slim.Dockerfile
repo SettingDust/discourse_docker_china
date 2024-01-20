@@ -2,9 +2,12 @@
 # VERSION:  release
 FROM debian:bullseye-slim
 
-ENV PG_MAJOR 13
-ENV RUBY_ALLOCATOR /usr/lib/libjemalloc.so.1
-ENV RAILS_ENV production
+ENV PG_MAJOR=13 \
+    RUBY_ALLOCATOR=/usr/lib/libjemalloc.so.1 \
+    RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH \
+    LEFTHOOK=0
 
 #LABEL maintainer="Sam Saffron \"https://twitter.com/samsaffron\""
 
@@ -25,7 +28,7 @@ ENV LANGUAGE en_US.UTF-8
 RUN curl https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" | \
         tee /etc/apt/sources.list.d/postgres.list
-RUN curl --silent --location https://deb.nodesource.com/setup_16.x | sudo bash -
+RUN curl --silent --location https://deb.nodesource.com/setup_18.x | sudo bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN apt-get -y update
@@ -37,12 +40,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install autoconf build-essential c
                        libssl-dev libyaml-dev libtool \
                        libpcre3 libpcre3-dev zlib1g zlib1g-dev \
                        libxml2-dev gawk parallel \
-                       postgresql-${PG_MAJOR} postgresql-client-${PG_MAJOR} \
-                       postgresql-contrib-${PG_MAJOR} libpq-dev libreadline-dev \
-                       anacron wget \
+                       postgresql-${PG_MAJOR} postgresql-client \
+                       postgresql-contrib-${PG_MAJOR} libpq-dev postgresql-${PG_MAJOR}-pgvector \
+                       libreadline-dev anacron wget \
                        psmisc whois brotli libunwind-dev \
                        libtcmalloc-minimal4 cmake \
-                       pngcrush pngquant
+                       pngcrush pngquant ripgrep
 RUN sed -i -e 's/start -q anacron/anacron -s/' /etc/cron.d/anacron
 RUN sed -i.bak 's/$ModLoad imklog/#$ModLoad imklog/' /etc/rsyslog.conf
 RUN sed -i.bak 's/module(load="imklog")/#module(load="imklog")/' /etc/rsyslog.conf
@@ -55,8 +58,7 @@ RUN cd / &&\
     rm -f /etc/apt/apt.conf.d/40proxy &&\
     locale-gen en_US &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs yarn &&\
-    npm install -g terser &&\
-    npm install -g uglify-js
+    npm install -g terser uglify-js pnpm
 
 ADD install-imagemagick /tmp/install-imagemagick
 RUN /tmp/install-imagemagick
@@ -67,19 +69,18 @@ RUN /tmp/install-jemalloc
 ADD install-nginx /tmp/install-nginx
 RUN /tmp/install-nginx
 
-ADD install-oxipng /tmp/install-oxipng
-RUN /tmp/install-oxipng
-
 ADD install-redis /tmp/install-redis
 RUN /tmp/install-redis
 
+ADD install-rust /tmp/install-rust
 ADD install-ruby /tmp/install-ruby
-RUN /tmp/install-ruby
+ADD install-oxipng /tmp/install-oxipng
+RUN /tmp/install-rust && /tmp/install-ruby && /tmp/install-oxipng && rustup self uninstall -y
 
 RUN echo 'gem: --no-document' >> /usr/local/etc/gemrc &&\
     gem update --system
 
-RUN gem install bundler pups --force &&\
+RUN gem install pups --force &&\
     mkdir -p /pups/bin/ &&\
     ln -s /usr/local/bin/pups /pups/bin/pups
 
@@ -117,5 +118,5 @@ COPY sbin/ /sbin
 # Discourse specific bits
 RUN useradd discourse -s /bin/bash -m -U &&\
     install -dm 0755 -o discourse -g discourse /var/www/discourse &&\
-    sudo -u discourse git clone --depth 1 https://hub.fastgit.xyz/discourse/discourse.git /var/www/discourse &&\
-    sudo -u discourse git -C /var/www/discourse remote set-branches --add origin tests-passed
+    sudo -u discourse git clone --filter=tree:0 https://mirror.ghproxy.com/https://github.com/discourse/discourse.git /var/www/discourse &&\
+    gem install bundler --conservative -v $(awk '/BUNDLED WITH/ { getline; gsub(/ /,""); print $0 }' /var/www/discourse/Gemfile.lock)
